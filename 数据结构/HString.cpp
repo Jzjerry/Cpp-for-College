@@ -23,12 +23,12 @@ typedef class HString
             }
             else
             {
-                ch=(char*)malloc((i+1)*sizeof(char));
+                ch=(char*)malloc((i)*sizeof(char));
                 for(int a=0;a<i;a++)
                 {
                 ch[a]=chars[a];
                 }
-                ch[i+1]='\0';
+                ch[i]='\0';
                length=i;
             }
         }
@@ -37,7 +37,7 @@ typedef class HString
             HString Sum;
             int i=0;
             Sum.length=length+S.length;
-            Sum.ch=(char*)malloc((Sum.length+1)*sizeof(char));
+            Sum.ch=(char*)malloc((Sum.length)*sizeof(char));
             for(i=0;i<length;i++)
             {
                 Sum.ch[i]=ch[i];
@@ -46,6 +46,7 @@ typedef class HString
             {
                 Sum.ch[i]=S.ch[i-length];
             }
+            Sum.ch[i]='\0';
             return Sum;
         }
 		int StrLength(HString S){return S.length;}
@@ -75,6 +76,61 @@ typedef class HString
 			}
 			return S;
 		}
+        int IndexFirst(HString T,int pos)
+        {
+            int i=pos;
+            int j=0;
+            while(i<length&&j<T.length)
+            {
+                if(ch[i]==T.ch[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    i=i-j+1;
+                    j=0;
+                }
+            }
+            if(j==T.length) return i-T.length;
+            else return 0;
+        }
+        int* IndexAll(HString T,int pos)
+        {
+            int i=pos;
+            int j=0;
+            int *index;
+            int count=0;
+            index=(int*)malloc(length*sizeof(int));
+            for(int k=0;k<length;k++)
+            {
+            	index[k]=-1;
+			}
+            while(i<length)
+			{ 
+				while(j<T.length)
+            	{
+              	  if(ch[i]==T.ch[j])
+            	    {
+            	        i++;
+            	        j++;
+           		    }
+            	    else
+           	   		{ 
+                    	i=i-j+1;
+                    	j=0;
+                	}
+            	}
+            	if(j==T.length)
+            	{
+            		index[count]=i-T.length;
+            		count++;
+            		j=0; 
+				}
+			} 
+            return index;
+        }
 }HString;
 int StrCompare(HString S,HString T)
 {
@@ -89,13 +145,19 @@ int main()
 {
 	HString T;
 	HString B;
-	T="Hello";
-	B=",World!";
+	int i=0;
+	T="AABBCCAA";
+	B="A";
 	std::cout<<T.length<<" ";
 	std::cout<<B.length<<" ";
 	T=T+B;
 	std::cout<<T.ch<<" "<<T.length<<std::endl; 
-	T=T.SubString(0,5)+T.SubString(6,6);
-	std::cout<<T.ch<<" "<<T.length;
+	//T=T.SubString(0,5)+T.SubString(6,6);
+	std::cout<<T.ch<<" "<<T.length<<" ";
+	while(T.IndexAll(B,0)[i]+1)
+	{
+    	std::cout<<T.IndexAll(B,0)[i]<<" ";
+    	i++;
+    }
 	return 0;
 }
