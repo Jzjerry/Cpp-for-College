@@ -96,6 +96,43 @@ typedef class HString
             if(j==T.length) return i-T.length;
             else return 0;
         }
+        int IndexKMP(HString T,int pos)
+        {
+            int i=0;
+            int j=-1;
+            int* next;
+            next=(int*)malloc(T.length*sizeof(int));
+            next[0]=-1;
+            while(i<T.length)
+            {
+                if(j==-1||T.ch[i]==T.ch[j])
+                {
+                    i++;
+                    j++;
+                    next[i]=j;
+                }
+                else j=next[j];
+            }
+            i=pos;
+            j=-1;
+            while(i<length&&j<T.length)
+            {
+                if(j==-1||ch[i]==T.ch[j])
+                {
+                    i++;
+                    j++;
+                }
+                else
+                {
+                    j=next[j];
+                }
+            }
+            if(j>=T.length)
+            {
+                return i-T.length;
+            }
+            else return -1;
+        }
         int* IndexAll(HString T,int pos)
         {
             int i=pos;
@@ -146,18 +183,20 @@ int main()
 	HString T;
 	HString B;
 	int i=0;
-	T="AABBCCAA";
-	B="A";
+	T="ABABCABCACBAB";
+	B="ABCAC";
 	std::cout<<T.length<<" ";
 	std::cout<<B.length<<" ";
-	T=T+B;
+	//T=T+B;
 	std::cout<<T.ch<<" "<<T.length<<std::endl; 
 	//T=T.SubString(0,5)+T.SubString(6,6);
 	std::cout<<T.ch<<" "<<T.length<<" ";
-	while(T.IndexAll(B,0)[i]+1)
+	std::cout<<T.IndexKMP(B,0)<<" ";
+	std::cout<<T.IndexFirst(B,0);
+	/*while(T.IndexAll(B,0)[i]+1)
 	{
     	std::cout<<T.IndexAll(B,0)[i]<<" ";
     	i++;
-    }
+    }*/
 	return 0;
 }
