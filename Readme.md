@@ -8,3 +8,4 @@
 | 链队列        | C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/LinkedQueue.cpp)  |
 | 串        | C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/HString.cpp)  |
 | 数组        |缝合怪(C×C++)|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Array.cpp)  |
+| 数组        |C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Array++.cpp)  |
