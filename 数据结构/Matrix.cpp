@@ -1,4 +1,4 @@
-/*Untra Pure Original Shit Mountain*/
+/*Ultra Pure Original Shit Mountain*/
 
 #include<iostream>
 #define MAX_SIZE 12500
