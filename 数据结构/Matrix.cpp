@@ -1,4 +1,4 @@
-/*比较浪费空间的写法*/
+/*Untra Pure Original Shit Mountain*/
 
 #include<iostream>
 #define MAX_SIZE 12500
