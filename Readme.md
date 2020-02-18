@@ -1,6 +1,6 @@
 # 大学C++课程上机练习
 ## 数据结构
-- 以清华大学出版社《数据结构》为主要参考
+### 以清华大学出版社《数据结构》为主要参考
 | 内容        | 语法   |  链接  |
 | --------   | -----:  | :----:  |
 | 多项式      | C |   [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Polynomial.cpp)     |
