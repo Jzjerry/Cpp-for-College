@@ -1,4 +1,4 @@
-/*Ultra Pure Original Shit Mountain*/
+/*Ultra Shitty Mountain with Ultra Shitty Addition&Subtraction*/
 
 #include<iostream>
 #define MAX_SIZE 12500
@@ -31,6 +31,29 @@ struct Matrix
     int mu=0,nu=0,tu;
     int *rpos;
     Matrix(){}
+    void set_rpos()
+    {
+    	rpos=new int[mu+1];
+        for(int i=1;i<=mu;i++)
+        {
+        	rpos[i]=tu+1;
+		}
+        for(int k=1;k<=tu;k++)
+        {
+        	rpos[data[k].i]=min(k,rpos[data[k].i]);
+		}
+		for(int j=1;j<mu;j++)
+        {
+        	int l=j+1;
+        	while(rpos[j]==tu+1)
+        	{
+        		if(l<mu&&rpos[l]!=tu+1) rpos[j]=rpos[l];
+        		else if(l==mu) { rpos[j]=rpos[l]; break;}
+        		else l++;
+        	}
+		}
+		return;
+	}
     void AssignMatrix()
     {
     	data=new TriElem<ElemType>[tu+1];
@@ -49,15 +72,7 @@ struct Matrix
             nu=mu;
             */
         }
-        rpos=new int[mu+1];
-        for(int j=1;j<=mu;j++)
-        {
-        	rpos[j]=tu+1;
-		}
-        for(int k=1;k<=tu;k++)
-        {
-        	rpos[data[k].i]=min(k,rpos[data[k].i]);
-		}
+        set_rpos();
     	return;
 	}
     Matrix(int n=0):tu(n)
@@ -67,7 +82,7 @@ struct Matrix
     Matrix(int t,int m,int n):tu(t),mu(m),nu(n)
 	{
 		data=new TriElem<ElemType>[MAX_SIZE+1];
-		rpos=new int[mu+1];
+		rpos=new int[mu+1]{0};
 	}
     Matrix Transpose()
     {
@@ -133,6 +148,11 @@ struct Matrix
 		{
 			data[i]=T.data[i];
 		}
+		rpos=new int[mu+1];
+		for(int i=1;i<=mu;i++)
+		{
+			rpos[i]=T.rpos[i];
+		}
 		return;
 	}
 	inline Matrix operator *(const Matrix T)const
@@ -174,6 +194,7 @@ struct Matrix
 					}
 				}
 			}
+			M.set_rpos();
 			return M;
 		}
 	}
@@ -236,6 +257,7 @@ struct Matrix
 					}
 				}
 			}
+			Sum.set_rpos();
 			return Sum;
 		}	
 	}
@@ -298,6 +320,7 @@ struct Matrix
 					}
 				}
 			}
+			Sub.set_rpos();
 			return Sub;
 		}	
 	}
@@ -328,12 +351,22 @@ int main()
     A.AssignMatrix();
     std::cout<<"\n";
     A.Print();
-    Matrix<int>B(4,4,4);
+    Matrix<int>B(8,4,4);
     B.AssignMatrix();
     std::cout<<"\n";
     B.Print();
-    Matrix<int>C=A-B;
+    std::cout<<"\n";
+    Matrix<int>C=B-A;
+    C.Print();
+    std::cout<<"\n";
+    C=C*C;
+    C=C*C;
     std::cout<<"\n";
     C.Print();
+    std::cout<<"\n";
+    for(int i=1;i<=C.mu;i++)
+	{
+		std::cout<<C.rpos[i]<<" ";
+	}
     return 0;
 }
