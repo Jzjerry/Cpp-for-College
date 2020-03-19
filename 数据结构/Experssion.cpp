@@ -101,6 +101,10 @@ bool IsOrder(char c)
 
 char Precede(char a,char b)
 {
+	if(b==',')
+	{
+		return ',';
+	}
 	int ia,ib;
 	for(ia=0;a!=OrderList[ia];ia++);
 	for(ib=0;b!=OrderList[ib];ib++);
@@ -145,13 +149,13 @@ int main()
 	stack<char>OrderStack;
 	stack<int>FunctionStack;
 	char *c=new char[100];
-	int j=0;
+	int i,j=0;
 	std::cout<<"Expression Length Limit:100\n";
 	while((c[j]=std::cin.get())!='\n')
 	{
 		j++;
 	}
-	for(int i=0;OrderStack.GetTop()!='\n';)
+	for(i=0;OrderStack.GetTop()!='\n';)
 	{
 		if(c[i]>='0'&&c[i]<='9')
 		{
@@ -237,22 +241,37 @@ int main()
 						i++;
 						break;
 					case '>':
+					{
 						char order=OrderStack.Pop();
 						double a,b;
 						a=DataStack.Pop();
 						b=DataStack.Pop();
 						DataStack.Push(Caculate(a,order,b));
-						if(c[i]==',')
+						break;
+					}
+					case ',':
+					{
+						if((!OrderStack.Empty())&&(OrderStack.GetTop()!='('))
+						{
+							char order=OrderStack.Pop();
+							double a,b;
+							a=DataStack.Pop();
+							b=DataStack.Pop();
+							DataStack.Push(Caculate(a,order,b));
+							i++;
+						}
+						else
 						{
 							i++;
 						}
 						break;
+					}
 				}
 			}
 		}
 	}
 	std::cout<<"Result is:"<<DataStack.Pop()<<"\n";
-	std::cout<<"Expression Length:"<<strlen(c)-1<<"\n";
+	std::cout<<"Expression Length:"<<i-1<<"\n";
 	return 0;
 } 
 template<class T>
