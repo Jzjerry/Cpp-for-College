@@ -109,7 +109,8 @@ typedef class HString
                 {
                     i++;
                     j++;
-                    next[i]=j;
+                    if(T.ch[i]!=T.ch[j]) next[i]=j;
+                    else next[i]=next[j];
                 }
                 else j=next[j];
             }
@@ -168,6 +169,41 @@ typedef class HString
 			} 
             return index;
         }
+        bool StrInsert(int pos,HString T)
+        {
+        	if(pos<1||pos>length-1)
+        	{
+        		return false;
+			}
+			if(T.length)
+			{
+				char *chnew=new char[length+T.length];
+				int i=0;
+				while(i<length+T.length)
+				{
+					if(i<pos)
+					{
+						chnew[i]=ch[i];
+					}
+					else if(i>=pos&&i<pos+T.length)
+					{
+						chnew[i]=T.ch[i-pos];
+					}
+					else
+					{
+						chnew[i]=ch[i-T.length];
+					}
+					i++;
+				}
+				chnew[i]='\0';
+				free(ch);
+				ch=NULL; 
+				ch=chnew;
+				length+=T.length;
+				return true;
+			}
+			return false;
+		}
 }HString;
 int StrCompare(HString S,HString T)
 {
@@ -183,16 +219,17 @@ int main()
 	HString T;
 	HString B;
 	int i=0;
-	T="ABABCABCACBAB";
-	B="ABCAC";
+	T="AAABAAAAB";
+	B="AAAAB";
 	std::cout<<T.length<<" ";
 	std::cout<<B.length<<" ";
 	//T=T+B;
+	T.StrInsert(3,B);
 	std::cout<<T.ch<<" "<<T.length<<std::endl; 
 	//T=T.SubString(0,5)+T.SubString(6,6);
-	std::cout<<T.ch<<" "<<T.length<<" ";
-	std::cout<<T.IndexKMP(B,0)<<" ";
-	std::cout<<T.IndexFirst(B,0);
+	//std::cout<<T.ch<<" "<<T.length<<" ";
+	//std::cout<<T.IndexKMP(B,0)<<" ";
+	//std::cout<<T.IndexFirst(B,0);
 	/*while(T.IndexAll(B,0)[i]+1)
 	{
     	std::cout<<T.IndexAll(B,0)[i]<<" ";
