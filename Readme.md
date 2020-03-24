@@ -8,7 +8,8 @@
 | 表达式(栈)        | C++ |   [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Experssion.cpp)   |
 | 队列        | C |  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Queue.cpp)  |
 | 链队列        | C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/LinkedQueue.cpp)  |
-| 串        | C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/HString.cpp)  |
+| 串        | C++(From Gao)|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/HString.cpp)  |
+|           | C++(Old Version)|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/History/HString(Old).cpp)  |
 | 数组        |缝合怪(C×C++)|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Array.cpp)  |
 |         |C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Array++.cpp)  |
 | 矩阵        |C++|  [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Matrix.cpp)  |
