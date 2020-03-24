@@ -1,239 +1,220 @@
-#include<iostream>
-#include<cstdlib>
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <exception>
+#include <vector>
 
-typedef class HString
-{
-    public:
-        char *ch;
-        int length;
-        HString(){ch=NULL;length=0;}
-        inline void operator =(const char *chars)
-        {
-            int i=0;
-            char c=chars[0];
-            if(ch) free(ch);
-            while(c)
-            {
-            	c=chars[++i];
-			}
-            if(!i)
-            {
-                ch=NULL;
-                length=0;
-            }
-            else
-            {
-                ch=(char*)malloc((i)*sizeof(char));
-                for(int a=0;a<i;a++)
-                {
-                ch[a]=chars[a];
-                }
-                ch[i]='\0';
-               length=i;
-            }
+class HString {
+private:
+    char* ch;
+    size_t length;
+
+    void copyFromCharArray(const char* chars) {
+        if (ch) {
+            free(ch);
+            ch = nullptr;
         }
-        inline HString operator +(const HString& S)const
-        {
-            HString Sum;
-            int i=0;
-            Sum.length=length+S.length;
-            Sum.ch=(char*)malloc((Sum.length)*sizeof(char));
-            for(i=0;i<length;i++)
-            {
-                Sum.ch[i]=ch[i];
+
+        length = std::strlen(chars);
+
+        if (length) {
+            ch = (char*)malloc((length + 1) * sizeof(char));
+
+            if (ch == nullptr) {
+                throw std::exception("memory ran out");
             }
-            for(i;i<Sum.length;++i)
-            {
-                Sum.ch[i]=S.ch[i-length];
-            }
-            Sum.ch[i]='\0';
-            return Sum;
+
+            std::strcpy(ch, chars);
+            ch[length] = 0;
         }
-		int StrLength(HString S){return S.length;}
-        void ClearString()
-        {
-            if(ch){free(ch);ch=NULL;}
-            length=0;
-            return;
-        }
-        HString SubString(int pos,int len)
-        {
-        	HString S;
-        	S.ClearString();
-        	if(pos<0||pos>length-1||len<1||len>length-pos)
-        	{
-        		std::cout<<"ERROR"<<std::endl; 
-        		return S;
-			}
-			else
-			{
-				S.ch=(char*)malloc((len+1)*sizeof(char));
-				S.length=len;
-				for(int i=0;i<len;i++)
-				{
-					S.ch[i]=ch[pos+i];
-				}
-			}
-			return S;
-		}
-        int IndexFirst(HString T,int pos)
-        {
-            int i=pos;
-            int j=0;
-            while(i<length&&j<T.length)
-            {
-                if(ch[i]==T.ch[j])
-                {
-                    i++;
-                    j++;
-                }
-                else
-                {
-                    i=i-j+1;
-                    j=0;
-                }
-            }
-            if(j==T.length) return i-T.length;
-            else return 0;
-        }
-        int IndexKMP(HString T,int pos)
-        {
-            int i=0;
-            int j=-1;
-            int* next;
-            next=(int*)malloc(T.length*sizeof(int));
-            next[0]=-1;
-            while(i<T.length)
-            {
-                if(j==-1||T.ch[i]==T.ch[j])
-                {
-                    i++;
-                    j++;
-                    if(T.ch[i]!=T.ch[j]) next[i]=j;
-                    else next[i]=next[j];
-                }
-                else j=next[j];
-            }
-            i=pos;
-            j=-1;
-            while(i<length&&j<T.length)
-            {
-                if(j==-1||ch[i]==T.ch[j])
-                {
-                    i++;
-                    j++;
-                }
-                else
-                {
-                    j=next[j];
-                }
-            }
-            if(j>=T.length)
-            {
-                return i-T.length;
-            }
-            else return -1;
-        }
-        int* IndexAll(HString T,int pos)
-        {
-            int i=pos;
-            int j=0;
-            int *index;
-            int count=0;
-            index=(int*)malloc(length*sizeof(int));
-            for(int k=0;k<length;k++)
-            {
-            	index[k]=-1;
-			}
-            while(i<length)
-			{ 
-				while(j<T.length)
-            	{
-              	  if(ch[i]==T.ch[j])
-            	    {
-            	        i++;
-            	        j++;
-           		    }
-            	    else
-           	   		{ 
-                    	i=i-j+1;
-                    	j=0;
-                	}
-            	}
-            	if(j==T.length)
-            	{
-            		index[count]=i-T.length;
-            		count++;
-            		j=0; 
-				}
-			} 
-            return index;
-        }
-        bool StrInsert(int pos,HString T)
-        {
-        	if(pos<1||pos>length-1)
-        	{
-        		return false;
-			}
-			if(T.length)
-			{
-				char *chnew=new char[length+T.length];
-				int i=0;
-				while(i<length+T.length)
-				{
-					if(i<pos)
-					{
-						chnew[i]=ch[i];
-					}
-					else if(i>=pos&&i<pos+T.length)
-					{
-						chnew[i]=T.ch[i-pos];
-					}
-					else
-					{
-						chnew[i]=ch[i-T.length];
-					}
-					i++;
-				}
-				chnew[i]='\0';
-				free(ch);
-				ch=NULL; 
-				ch=chnew;
-				length+=T.length;
-				return true;
-			}
-			return false;
-		}
-}HString;
-int StrCompare(HString S,HString T)
-{
-    for(int i=0;i<S.length&&i<T.length;i++)
-    {
-        if(S.ch[i]!=T.ch[i])
-        return S.ch[i]-T.ch[i];
     }
-    return S.length-T.length;
-}
+
+public:
+    HString() : ch(nullptr), length(0) {
+    }
+
+    HString(const HString& str) : ch(nullptr), length(0) {
+        copyFromCharArray(str.ch);
+    }
+
+    HString(const char* str) : ch(nullptr), length(0) {
+        copyFromCharArray(str);
+    }
+
+    HString(HString&& str) : ch(nullptr), length(0) {
+        copyFromCharArray(str.ch);
+        str.clearString();
+    }
+
+    HString& operator =(const char* chars) {
+        copyFromCharArray(chars);
+        return *this;
+    }
+
+    HString& operator =(const HString& s) {
+        if (this != &s) {
+            copyFromCharArray(s.ch);
+        }
+        
+        return *this;
+    }
+
+    HString operator +(const HString& s) const {
+        char* temp = (char*)malloc((this->length + s.length) * sizeof(char));
+        if (temp == nullptr) {
+            throw std::exception("memory ran out");
+        }
+
+        std::strcpy(temp, this->ch);
+        std::strcat(temp, s.ch);
+
+        return HString{temp};
+    }
+
+    inline const char* getCString() const {
+        return ch;
+    }
+
+    inline size_t getStrLength() { 
+        return this->length;
+    }
+
+    void clearString() {
+        if (ch) { 
+            free(ch); ch = nullptr; 
+        }
+
+        length = 0;
+        return;
+    }
+
+    HString getSubString(const size_t& pos, const size_t& len) {
+        if (pos > length - 1 || len < 1 || len + pos > length) {
+            throw std::exception("index out of range");
+        }
+        
+        char* temp = (char*)malloc(sizeof(char) * (len + 1));
+        if (temp == nullptr) {
+            throw std::exception("memory ran out");
+        }
+        std::strncpy(temp, this->ch + pos, len);
+        temp[len] = 0;
+
+        return HString{temp};
+    }
+
+    int getIndexWithKMP(const HString& T, const size_t& pos) const {
+        int i = 0, j = -1;
+        int* next = new int[T.length + 1];
+        if (next == nullptr) {
+            throw std::exception("memory ran out");
+        }
+
+        next[0] = -1;
+
+        while (i < T.length) {
+            if (j == -1 || T.ch[i] == T.ch[j])
+            {
+                i++; j++;
+                if (T.ch[i] != T.ch[j]) {
+                    next[i] = j;
+                } 
+                else {
+                    next[i] = next[j];
+                }
+            }
+            else {
+                j = next[j];
+            }
+        }
+
+        i = pos;
+        j = 0;
+        while (i < length && j < T.length) {
+            if (ch[i] == T.ch[j]) {
+                i++; j++;
+
+                if (j == T.length) {
+                    break;
+                }
+            }
+            else {
+                j = next[j];
+            }
+        }
+
+        delete[] next;
+
+        return (j >= (int)T.length) ? i - T.length : -1;
+    }
+
+    std::vector<size_t> getAllIndex(const HString& T, size_t pos) {
+        HString temp(*this);
+        std::vector<size_t> index;
+
+        int res;
+        while ((res = temp.getIndexWithKMP(T, pos)) != -1) {
+            index.push_back(res);
+            temp = temp.getSubString(res + 1, temp.length - res - 1);
+            pos = 0;
+        }
+
+        return index;
+    }
+
+    void insertStr(const size_t& pos, const HString& T) {
+        if (pos < 1 || pos > length - 1) {
+            throw std::exception("index out of range");
+        }
+
+        if (T.length) {
+            char* chnew = (char*)malloc((this->length + T.length + 1) * sizeof(char));
+            if (chnew == nullptr) {
+                throw std::exception("memory ran out");
+            }
+
+            if (pos != 0) {
+                std::strncpy(chnew, this->ch, pos);
+            }
+            std::strcpy(chnew + pos, T.ch);
+            if (pos != this->length) {
+                std::strncpy(chnew + pos + T.length, this->ch + pos, this->length - pos);
+            }
+
+            chnew[this->length + T.length] = 0;
+            this->copyFromCharArray(chnew);
+        }
+    }
+
+    int compareWith(const HString& T) const noexcept {
+        for (int i = 0; i < this->length && i < T.length; i++)
+        {
+            if (this->ch[i] != T.ch[i])
+                return this->ch[i] - T.ch[i];
+        }
+        return this->length - T.length;
+    }
+};
+
 int main()
 {
-	HString T;
-	HString B;
-	int i=0;
-	T="AAABAAAAB";
-	B="AAAAB";
-	std::cout<<T.length<<" ";
-	std::cout<<B.length<<" ";
-	//T=T+B;
-	T.StrInsert(3,B);
-	std::cout<<T.ch<<" "<<T.length<<std::endl; 
-	//T=T.SubString(0,5)+T.SubString(6,6);
-	//std::cout<<T.ch<<" "<<T.length<<" ";
-	//std::cout<<T.IndexKMP(B,0)<<" ";
-	//std::cout<<T.IndexFirst(B,0);
-	/*while(T.IndexAll(B,0)[i]+1)
-	{
-    	std::cout<<T.IndexAll(B,0)[i]<<" ";
-    	i++;
-    }*/
-	return 0;
+    HString T = "AAABAAAAB";
+    HString B = "AAAAB";
+
+    std::cout << T.getStrLength() << " ";
+    std::cout << B.getStrLength() << " ";
+
+    T = T + B;
+    T.insertStr(3, B);
+    std::cout << T.getCString() << " " << T.getStrLength() << std::endl;
+
+    T = T.getSubString(0,5) + T.getSubString(6,6);
+    std::cout << T.getCString() << " " << T.getStrLength() << std::endl;
+    std::cout << T.getIndexWithKMP(B, 0) << " ";
+
+    auto all = T.getAllIndex(B, 0);
+    for (const auto& pos : all) {
+        std::cout << pos << " ";
+    }
+    return 0;
 }
