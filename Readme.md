@@ -5,7 +5,7 @@
 | --------   | -----:  | :----:  |
 | 多项式      | C |   [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Polynomial.cpp)     |
 | 栈        | C |   [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Stack.cpp)   |
-| 表达式(栈)        | C++ |   [-](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Experssion.cpp)   |
+| 表达式(栈)        | C++ |   [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Experssion.cpp)   |
 | 队列        | C |  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Queue.cpp)  |
 | 链队列        | C++|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/LinkedQueue.cpp)  |
 | 串        | C++11(From Gao)|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/HString.cpp)  |
