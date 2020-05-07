@@ -15,11 +15,12 @@ int main()
 	decode.open("Huffbaby.back",std::ios::out);
 	size_t n;
 	read>>n;
+	read.get();									//读入一个回车符 
 	_HuffmanCode=new char*[n];
 	Dictionary=new char[n];
 	for(int i=1;i<=n;i++)
 	{
-		read>>Dictionary[i];
+		Dictionary[i]=read.get();
 		char ch;
 		int ptr=0;
 		_HuffmanCode[i]=new char[100]; 

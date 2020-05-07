@@ -4,7 +4,7 @@
 #include<fstream>
 #include<vector>
 
-int CharStatic[26]={0};
+int CharStatic[126]={0};
 
 template<class ElemType>
 struct TreeNode
@@ -128,7 +128,7 @@ HuffmanTree<ElemType>::HuffmanTree(size_t n):Root(2*n-1),_ElemNum(n)
     	{
     		j++;
 		}
-		_Head[i].data=96+j;
+		_Head[i].data=j;
 		_Head[i].weight=CharStatic[j];
 		j++;
     }
@@ -178,10 +178,10 @@ int main()
 	
 	while((in=PrimaryFile.get())!=EOF)
 	{
-		if(in>=97&&in<=122)
+		if(in>=32&&in<=126||in=='\n')
 		{
-			if(CharStatic[in-96]==0) count++;
-			CharStatic[in-96]++;
+			if(CharStatic[in]==0) count++;
+			CharStatic[in]++;
 		}
 	}
 	HuffmanTree<char> Tree(count);
