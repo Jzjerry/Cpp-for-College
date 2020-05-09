@@ -15,3 +15,4 @@
 | 矩阵        |C++|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Matrix.cpp)  |
 | 广义表        |C++|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/Lists.cpp)  |
 | 哈夫曼树        |C++|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/HuffmanTree.cpp)  |
+| 邻接表        |C++|  [Here](https://github.com/Jzjerry/Cpp-for-College/blob/master/数据结构/AdjacencyList.cpp)  |
